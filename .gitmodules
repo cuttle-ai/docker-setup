@@ -1,0 +1,6 @@
+[submodule "brain-frontend"]
+	path = brain-frontend
+	url = https://github.com/cuttle-ai/brain-frontend
+[submodule "auth-service"]
+	path = auth-service
+	url = https://github.com/cuttle-ai/auth-service
