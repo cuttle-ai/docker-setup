@@ -1,7 +1,6 @@
 version: "3"
 
 services:
-
   appdb:
     image: postgres:9.6
     command: -p $DB_PORT
@@ -13,7 +12,7 @@ services:
       POSTGRES_DB: $DB_DATABASE_NAME
     networks:
       - brain-network
-  
+
   discovery:
     image: consul:1.6
     ports:
@@ -25,7 +24,7 @@ services:
 
   frontend:
     build:
-      context: brain-frontend
+      context: ../brain-frontend
       dockerfile: Dockerfile
     ports:
       - "4200:4200"
@@ -33,10 +32,10 @@ services:
       - brain-network
     depends_on:
       - "auth-service"
-  
+
   auth-service:
     build:
-      context: auth-service
+      context: ../auth-service
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
@@ -55,7 +54,7 @@ services:
       DISCOVERY_URL: discovery:8500
       DISCOVERY_TOKEN: $DISCOVERY_TOKEN
       ENABLE_DB: "true"
-      FRONTEND_URL: frontend:4200
+      FRONTEND_URL: 127.0.0.1:4200
       OAUTH2_GOOGLE_CLIENT_ID: $OAUTH2_GOOGLE_CLIENT_ID
       OAUTH2_GOOGLE_CLIENT_SECRET: $OAUTH2_GOOGLE_CLIENT_SECRET
       OAUTH2_GOOGLE_REDIRECT_URL: $OAUTH2_GOOGLE_REDIRECT_URL
