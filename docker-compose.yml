@@ -24,8 +24,8 @@ services:
 
   frontend:
     build:
-      context: ../brain-frontend
-      dockerfile: Dockerfile
+      context: repos
+      dockerfile: brain-frontend/Dockerfile
     ports:
       - "4200:4200"
     networks:
@@ -35,8 +35,8 @@ services:
 
   auth-service:
     build:
-      context: ../auth-service
-      dockerfile: Dockerfile
+      context: repos
+      dockerfile: auth-service/Dockerfile
     ports:
       - "8080:8080"
     networks:
