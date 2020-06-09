@@ -65,8 +65,37 @@ services:
       OAUTH2_GOOGLE_USER_INFO_URL: $OAUTH2_GOOGLE_USER_INFO_URL
       OAUTH2_GOOGLE_USER_PROFILE_SCOPE: $OAUTH2_GOOGLE_USER_PROFILE_SCOPE
       PORT: "8080"
+      RPC_PORT: "9090"
       OAUTH2_GOOGLE_USER_INFO_TIMEOUT: $OAUTH2_GOOGLE_USER_INFO_TIMEOUT
       RESPONSE_TIMEOUT: $RESPONSE_TIMEOUT
+      SERVICE_DOMAIN: "auth-service"
+
+    file-uploader-service:
+      build:
+        context: repos
+        dockerfile: auth-service/Dockerfile
+      ports:
+        - "8080:8080"
+      networks:
+        - brain-network
+      depends_on:
+        - "appdb"
+        - "discovery"
+      environment:
+        SKIP_VAULT: "true"
+        DB_DATABASE_NAME: $DB_DATABASE_NAME
+        DB_HOST: appdb
+        DB_PORT: $DB_PORT
+        DB_PASSWORD: $DB_PASSWORD
+        DB_USERNAME: $DB_USERNAME
+        DISCOVERY_URL: discovery:8500
+        DISCOVERY_TOKEN: $DISCOVERY_TOKEN
+        ENABLE_DB: "true"
+        PORT: "8081"
+        RPC_PORT: "8082"
+        SERVICE_DOMAIN: "file-uploader-service"
+        FILE_UPLOADER_PRIVATE_KEY: $FILE_UPLOADER_PRIVATE_KEY
+        FILE_UPLOADER_PUBLIC_KEY: $FILE_UPLOADER_PUBLIC_KEY
 
 networks:
   brain-network:
