@@ -39,6 +39,7 @@ services:
       dockerfile: auth-service/Dockerfile
     ports:
       - "8080:8080"
+      - "9090:9090"
     networks:
       - brain-network
     depends_on:
@@ -73,14 +74,16 @@ services:
     file-uploader-service:
       build:
         context: repos
-        dockerfile: auth-service/Dockerfile
+        dockerfile: file-uploader-service/Dockerfile
       ports:
-        - "8080:8080"
+        - "8081:8081"
+        - "8082:8082"
       networks:
         - brain-network
       depends_on:
         - "appdb"
         - "discovery"
+        - "auth-service"
       environment:
         SKIP_VAULT: "true"
         DB_DATABASE_NAME: $DB_DATABASE_NAME
@@ -96,6 +99,33 @@ services:
         SERVICE_DOMAIN: "file-uploader-service"
         FILE_UPLOADER_PRIVATE_KEY: $FILE_UPLOADER_PRIVATE_KEY
         FILE_UPLOADER_PUBLIC_KEY: $FILE_UPLOADER_PUBLIC_KEY
+
+    data-integration-service:
+      build:
+        context: repos
+        dockerfile: data-integration-service/Dockerfile
+      ports:
+        - "8090:8090"
+        - "8091:8091"
+      networks:
+        - brain-network
+      depends_on:
+        - "appdb"
+        - "discovery"
+        - "auth-service"
+      environment:
+        SKIP_VAULT: "true"
+        DB_DATABASE_NAME: $DB_DATABASE_NAME
+        DB_HOST: appdb
+        DB_PORT: $DB_PORT
+        DB_PASSWORD: $DB_PASSWORD
+        DB_USERNAME: $DB_USERNAME
+        DISCOVERY_URL: discovery:8500
+        DISCOVERY_TOKEN: $DISCOVERY_TOKEN
+        ENABLE_DB: "true"
+        PORT: "8090"
+        RPC_PORT: "8091"
+        SERVICE_DOMAIN: "data-integration-service"
 
 networks:
   brain-network:
