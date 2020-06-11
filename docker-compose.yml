@@ -2,7 +2,11 @@ version: "3"
 
 services:
   appdb:
-    image: postgres:9.6
+    build:
+      context: db
+      dockerfile: Dockerfile
+      args:
+        FILE_UPLOADER_PUBLIC_KEY: $FILE_UPLOADER_PUBLIC_KEY
     command: -p $DB_PORT
     ports:
       - "$DB_PORT:$DB_PORT"
@@ -76,6 +80,9 @@ services:
     build:
       context: repos
       dockerfile: file-uploader-service/Dockerfile
+      args:
+        FILE_UPLOADER_PUBLIC_KEY: $FILE_UPLOADER_PUBLIC_KEY
+        FILE_UPLOADER_PRIVATE_KEY: $FILE_UPLOADER_PRIVATE_KEY
     ports:
       - "8081:8081"
       - "8082:8082"
@@ -98,8 +105,6 @@ services:
       PORT: "8081"
       RPC_PORT: "8082"
       SERVICE_DOMAIN: "file-uploader-service"
-      FILE_UPLOADER_PRIVATE_KEY: $FILE_UPLOADER_PRIVATE_KEY
-      FILE_UPLOADER_PUBLIC_KEY: $FILE_UPLOADER_PUBLIC_KEY
 
   data-integration-service:
     build:
