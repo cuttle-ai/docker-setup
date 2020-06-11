@@ -131,7 +131,7 @@ services:
   octopus-service:
     build:
       context: repos
-      dockerfile: data-integration-service/Dockerfile
+      dockerfile: octopus-service/Dockerfile
     ports:
       - "8087:8087"
       - "8088:8088"
@@ -141,7 +141,6 @@ services:
       - "appdb"
       - "discovery"
       - "auth-service"
-      - "data-integration-service"
     environment:
       SKIP_VAULT: "true"
       DB_DATABASE_NAME: $DB_DATABASE_NAME
