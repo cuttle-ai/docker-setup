@@ -127,6 +127,34 @@ services:
         RPC_PORT: "8091"
         SERVICE_DOMAIN: "data-integration-service"
 
+    octopus-service:
+      build:
+        context: repos
+        dockerfile: data-integration-service/Dockerfile
+      ports:
+        - "8087:8087"
+        - "8088:8088"
+      networks:
+        - brain-network
+      depends_on:
+        - "appdb"
+        - "discovery"
+        - "auth-service"
+      environment:
+        SKIP_VAULT: "true"
+        DB_DATABASE_NAME: $DB_DATABASE_NAME
+        DB_HOST: appdb
+        DB_PORT: $DB_PORT
+        DB_PASSWORD: $DB_PASSWORD
+        DB_USERNAME: $DB_USERNAME
+        DISCOVERY_URL: discovery:8500
+        DISCOVERY_TOKEN: $DISCOVERY_TOKEN
+        ENABLE_DB: "true"
+        PORT: "8087"
+        RPC_PORT: "8088"
+        SERVICE_DOMAIN: "octopus-service"
+        DUCKLING_SERVER: "http://duckling.cuttle.ai:8000"
+
 networks:
   brain-network:
     driver: bridge
