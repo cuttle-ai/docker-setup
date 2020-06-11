@@ -140,6 +140,7 @@ services:
       - "appdb"
       - "discovery"
       - "auth-service"
+      - "data-integration-service"
     environment:
       SKIP_VAULT: "true"
       DB_DATABASE_NAME: $DB_DATABASE_NAME

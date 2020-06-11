@@ -13,4 +13,4 @@ git clone https://github.com/cuttle-ai/data-integration-service repos/data-integ
 git clone https://github.com/cuttle-ai/file-uploader-service repos/file-uploader-service
 git clone https://github.com/cuttle-ai/go-sdk repos/go-sdk
 docker-compose build
-docker-compose start
+docker-compose up
