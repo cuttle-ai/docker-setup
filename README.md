@@ -6,11 +6,12 @@ Docker compose setup for the platform
 
 ```bash
 git clone https://github.com/cuttle-ai/docker-setup
-cd docker-setup && sh setup.sh
+cd docker-setup
 cp sample.env .env
 ssh-keygen
 cp ~/.ssh/id_rsa id_rsa
 cp ~/.ssh/id_rsa.pub id_rsa.pub
+sh setup.sh
 ```
 
 Update the google client id and secret in the env file
