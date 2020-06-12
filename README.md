@@ -11,12 +11,18 @@ cp sample.env .env
 ssh-keygen
 cp ~/.ssh/id_rsa id_rsa
 cp ~/.ssh/id_rsa.pub id_rsa.pub
+```
+
+Update the google client id and secret in the `.env` file.
+
+For the first time run the following command to build and start the platform
+
+```bash
 sh setup.sh
 ```
 
-Update the google client id and secret in the env file
+Once setup, the platform can be started by running the following command
 
 ```bash
-docker-compose build
-docker-compose up
+sh start.sh
 ```
