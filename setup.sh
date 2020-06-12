@@ -1,3 +1,4 @@
+docker-compose down
 rm -rf repos
 mkdir repos
 git clone https://github.com/cuttle-ai/auth-service repos/auth-service
@@ -12,7 +13,5 @@ git clone https://github.com/cuttle-ai/brain repos/brain
 git clone https://github.com/cuttle-ai/data-integration-service repos/data-integration-service
 git clone https://github.com/cuttle-ai/file-uploader-service repos/file-uploader-service
 git clone https://github.com/cuttle-ai/go-sdk repos/go-sdk
-export FILE_UPLOADER_PUBLIC_KEY = ${cat id_rsa.pub}
-export FILE_UPLOADER_PRIVATE_KEY = ${cat id_rsa}
-docker-compose build
+FILE_UPLOADER_PUBLIC_KEY=$(cat id_rsa.pub) FILE_UPLOADER_PRIVATE_KEY=$(cat id_rsa) docker-compose build
 docker-compose up
