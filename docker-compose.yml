@@ -162,6 +162,33 @@ services:
       SERVICE_DOMAIN: "octopus-service"
       DUCKLING_SERVER: "http://duckling.cuttle.ai:8000"
 
+  websockets:
+    build:
+      context: repos
+      dockerfile: websockets/Dockerfile
+    ports:
+      - "8078:8078"
+      - "8079:8079"
+    networks:
+      - brain-network
+    depends_on:
+      - "appdb"
+      - "discovery"
+      - "auth-service"
+    environment:
+      SKIP_VAULT: "true"
+      DB_DATABASE_NAME: $DB_DATABASE_NAME
+      DB_HOST: $DB_HOST
+      DB_PORT: $DB_PORT
+      DB_PASSWORD: $DB_PASSWORD
+      DB_USERNAME: $DB_USERNAME
+      DISCOVERY_URL: discovery:8500
+      DISCOVERY_TOKEN: $DISCOVERY_TOKEN
+      ENABLE_DB: "true"
+      PORT: "8090"
+      RPC_PORT: "8091"
+      SERVICE_DOMAIN: "websockets"
+
 networks:
   brain-network:
     driver: bridge
