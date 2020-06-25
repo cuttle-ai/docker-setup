@@ -39,7 +39,7 @@ LABEL maintainer="Melvin Davis <melvinodsa@gmail.com>"
 RUN mkdir -p /home/cuttle-dev && mkdir /root/.ssh && mkdir /root/auth-service && mkdir /root/data-integration-service && mkdir /root/file-uploader-service && mkdir /root/octopus-service && mkdir /root/websockets
 COPY --from=0 /tmp/sshkey.pub /root/.ssh/authorized_keys  
 RUN chmod 600 /root/.ssh/authorized_keys
-RUN apt-get update && apt-get install -y openssh-server && apt-get install ca-certificates && apt-get -y install nginx
+RUN apt-get update && apt-get install -y openssh-server && apt-get install ca-certificates && apt-get -y install nginx && apt-get -y install curl && apt-get -y install unzip
 
 COPY --from=0 /app/auth-service/auth-service /root/auth-service/auth-service
 COPY --from=0 /app/data-integration-service/data-integration-service /root/data-integration-service/data-integration-service
@@ -52,6 +52,10 @@ COPY db/run.sh /root/run-db.sh
 COPY docker/services.sh /root/services.sh
 COPY docker/run.sh /root/run.sh
 COPY nginx/default-sites.conf /etc/nginx/sites-enabled/default
+COPY consul/run.sh /root/run-consul.sh
+
+# installing consul
+RUN sh /root/run-consul.sh
 
 EXPOSE 80/tcp
 EXPOSE 80/udp
@@ -63,5 +67,7 @@ EXPOSE 8087/tcp
 EXPOSE 8087/udp
 EXPOSE 8078/tcp
 EXPOSE 8078/udp
+EXPOSE 8500/tcp
+EXPOSE 8500/udp
 
 ENTRYPOINT [ "/bin/bash",  "/root/run.sh" ]
